@@ -938,7 +938,7 @@ KillSection:AddSwitch("Auto Slams", function(state)
     end
 end)
 
--- 🔥 NUEVO: AUTO FOLLOW + AUTO SLAMS CON DROPDOWN 🔥
+-- FOLLOW & SLAM PLAYER
 local FollowSection = KillTab:AddFolder("👥 Follow & Slam Player")
 
 local targetPlayerName = nil
@@ -946,9 +946,7 @@ local followingPlayer = false
 
 FollowSection:AddLabel("Selecciona un jugador:")
 
--- Crear Dropdown con jugadores
 local playerDropdown = FollowSection:AddDropdown("Select Player", function(selectedDisplayName)
-    -- Buscar jugador por DisplayName
     for _, plr in ipairs(Players:GetPlayers()) do
         if plr.DisplayName == selectedDisplayName then
             targetPlayerName = plr.Name
@@ -958,21 +956,18 @@ local playerDropdown = FollowSection:AddDropdown("Select Player", function(selec
     end
 end)
 
--- Agregar jugadores al dropdown
 for _, plr in ipairs(Players:GetPlayers()) do
     if plr ~= LocalPlayer then
         playerDropdown:Add(plr.DisplayName)
     end
 end
 
--- Actualizar dropdown cuando entren jugadores
 Players.PlayerAdded:Connect(function(plr)
     if plr ~= LocalPlayer then
         playerDropdown:Add(plr.DisplayName)
     end
 end)
 
--- Actualizar dropdown cuando salgan jugadores
 Players.PlayerRemoving:Connect(function(plr)
     playerDropdown:Clear()
     for _, player in ipairs(Players:GetPlayers()) do
@@ -981,7 +976,6 @@ Players.PlayerRemoving:Connect(function(plr)
         end
     end
     
-    -- Si era el target, detener seguimiento
     if targetPlayerName == plr.Name then
         targetPlayerName = nil
         followingPlayer = false
@@ -998,7 +992,6 @@ FollowSection:AddSwitch("Follow + Auto Slam", function(state)
             return
         end
         
-        -- Thread para seguir al jugador Y hacer slams
         task.spawn(function()
             while followingPlayer do
                 local target = Players:FindFirstChild(targetPlayerName)
@@ -1009,15 +1002,12 @@ FollowSection:AddSwitch("Follow + Auto Slam", function(state)
                     local myHRP = myChar and myChar:FindFirstChild("HumanoidRootPart")
                     
                     if targetHRP and myHRP then
-                        -- Calcular posición detrás del target
                         local targetPos = targetHRP.Position
                         local targetLook = targetHRP.CFrame.LookVector
                         local followPos = targetPos - (targetLook * 5)
                         
-                        -- Teletransportar detrás del jugador
                         myHRP.CFrame = CFrame.new(followPos, targetPos)
                         
-                        -- Hacer slam
                         local groundSlam = LocalPlayer.Backpack:FindFirstChild("Ground Slam") or myChar:FindFirstChild("Ground Slam")
                         
                         if groundSlam then
@@ -1129,7 +1119,7 @@ end)
 -- ========================================
 -- STATS TAB
 -- ========================================
-local Stats = window:AddTab("Stats", Color3.fromRGB(128, 0, 128))
+local StatsTab = window:AddTab("Stats", Color3.fromRGB(128, 0, 128))
 
 local function abbreviateNumber(value)
     if value >= 1e15 then
@@ -1147,14 +1137,13 @@ local function abbreviateNumber(value)
     end
 end
 
-local timeLabel = Stats:AddLabel("Tiempo en servidor: Calculando...")
-local strengthLabel = Stats:AddLabel("Fuerza ganada: 0")
-local durabilityLabel = Stats:AddLabel("Durabilidad ganada: 0")
-local agilityLabel = Stats:AddLabel("Agilidad ganada: 0")
-local killsLabel = Stats:AddLabel("Kills ganados: 0")
-local rebirthsLabel = Stats:AddLabel("Rebirths ganados: 0")
+local timeLabel = StatsTab:AddLabel("Tiempo en servidor: Calculando...")
+local strengthLabel = StatsTab:AddLabel("Fuerza ganada: 0")
+local durabilityLabel = StatsTab:AddLabel("Durabilidad ganada: 0")
+local agilityLabel = StatsTab:AddLabel("Agilidad ganada: 0")
+local killsLabel = StatsTab:AddLabel("Kills ganados: 0")
+local rebirthsLabel = StatsTab:AddLabel("Rebirths ganados: 0")
 
--- Sistema de tracking
 local startTime = tick()
 local initialStats = {
     strength = LocalPlayer.leaderstats.Strength.Value,
@@ -1243,7 +1232,7 @@ Player:AddSwitch("Apply JumpPower", function(state)
 end)
 
 -- ========================================
--- TELEPORT TAB (MEJORADO)
+-- TELEPORT TAB
 -- ========================================
 local Teleport = window:AddTab("Teleport", Color3.fromRGB(128, 0, 128))
 
@@ -1308,7 +1297,7 @@ BrawlSection:AddButton("Brawl Regular", function()
 end)
 
 -- ========================================
--- 🔥 NUEVO TAB: CRYSTALS/PETS 🔥
+-- CRYSTALS TAB
 -- ========================================
 local CrystalsTab = window:AddTab("Crystals", Color3.fromRGB(128, 0, 128))
 
@@ -1362,19 +1351,6 @@ end)
 local UltimateSection = CrystalsTab:AddFolder("⭐ Buy Ultimates")
 
 local selectedUltimate = ""
-local ultimates = {
-    "+1 Daily Spin",
-    "+1 Pet Slot",
-    "+10 Item Capacity",
-    "+5% Rep Speed",
-    "Demon Damage",
-    "Galaxy Gains",
-    "Golden Rebirth",
-    "Jungle Swift",
-    "Muscle Mind",
-    "x2 Chest Rewards",
-    "x2 Quest Rewards"
-}
 
 UltimateSection:AddLabel("Escribe el nombre exacto")
 
@@ -1415,10 +1391,10 @@ Credits:AddLabel("Enjoy!")
 -- ========================================
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Private Cesar Enhanced",
-    Text = "Script cargado con éxito ✅",
+    Text = "Script cargado con exito",
     Duration = 5
 })
 
-print("✅ Private Cesar Enhanced cargado")
-print("✅ CesarXPatrick"🔥""")
-print("🔥 By Patrick ")
+print("Private Cesar Enhanced cargado")
+print("CesarXPatrick")
+print("By Patrick")
