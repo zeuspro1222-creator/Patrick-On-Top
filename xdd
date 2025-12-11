@@ -14,7 +14,7 @@ local VirtualUser = game:GetService("VirtualUser")
 local Stats = game:GetService("Stats")
 
 -- Ventana principal con color morado
-local window = library:AddWindow("Private Cesar 🔥 | Enhanced", {
+local window = library:AddWindow("Private Patrick oñ ñop 🔥 | REBIRTHS OÑ ÑOPS", {
     main_color = Color3.fromRGB(128, 0, 128),
     min_size = Vector2.new(615, 550),
     can_resize = false,
